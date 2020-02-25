@@ -20,7 +20,7 @@ locals {
 EOF
 }
 
-data "aws_iam_policy_document" "okta_roles_lister_assume_policy" {
+data "aws_iam_policy_document" "okta_cross_account_role_assume_policy" {
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -31,16 +31,18 @@ data "aws_iam_policy_document" "okta_roles_lister_assume_policy" {
   }
 }
 
-resource "aws_iam_role" "okta_roles_lister" {
+resource "aws_iam_role" "okta_cross_account_role" {
+  count              = "${var.add_cross_account_role && length(var.master_accounts) > 0 ? 1 : 0}"
   // This is a pre-defined/reserved name for Okta setup
   // See: https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#B-step4
   name               = "Okta-Idp-cross-account-role"
-  assume_role_policy = "${data.aws_iam_policy_document.okta_roles_lister_assume_policy.json}"
+  assume_role_policy = "${data.aws_iam_policy_document.okta_cross_account_role_assume_policy.json}"
 }
 
-resource "aws_iam_role_policy" "okta_iam_read_only" {
+resource "aws_iam_role_policy" "okta_cross_account_role_policy" {
+  count  = "${var.add_cross_account_role && length(var.master_accounts) > 0 ? 1 : 0}"
   name   = "Okta-Idp-cross-account-role-policy"
-  role   = "${aws_iam_role.okta_roles_lister.id}"
+  role   = "${aws_iam_role.okta_cross_account_role.id}"
   policy = <<-EOF
 {
       "Version": "2012-10-17",

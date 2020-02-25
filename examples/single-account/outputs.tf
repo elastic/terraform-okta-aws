@@ -4,7 +4,7 @@ output "okta_user" {
 }
 
 output "okta_cross_account_role" {
-  value = "${module.okta_child_setup.okta_roles_lister_arn}"
+  value = "${module.okta_child_setup.okta_cross_account_role}"
 }
 
 output "okta_idp_arn" {

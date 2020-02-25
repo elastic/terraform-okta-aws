@@ -7,16 +7,11 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-module "okta_master_setup" {
-  source    = "../../modules/master"
-  user_name = "okta-app-user"
-}
-
 module "okta_child_setup" {
   source                 = "../../modules/child"
   idp_name               = "DemoOkta"
   idp_metadata           = "${file(var.idp_metadata_file)}"
-  master_accounts        = ["${module.okta_master_setup.okta_master_account_id}"]
+  master_accounts        = ["${var.master_account_ids}"]
   add_cross_account_role = false
 }
 

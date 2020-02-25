@@ -1,0 +1,20 @@
+{
+    "okta_assume_role_stanza": {
+        "sensitive": false,
+        "type": "string",
+        "value": "{\n  \"Effect\": \"Allow\",\n  \"Principal\": {\n    \"Federated\": \"arn:aws:iam::XXXXX:saml-provider/DemoOkta\"\n  },\n  \"Action\": \"sts:AssumeRoleWithSAML\",\n  \"Condition\": {\n    \"StringEquals\": {\n      \"SAML:aud\": \"https://signin.aws.amazon.com/saml\"\n    }\n  }\n}\n"
+    },
+    "okta_idp_arn": {
+        "sensitive": false,
+        "type": "string",
+        "value": "arn:aws:iam::XXXXX:saml-provider/DemoOkta"
+    },
+    "sso_role_arns": {
+        "sensitive": false,
+        "type": "list",
+        "value": [
+            "arn:aws:iam::XXXXX:role/EC2ReadOnly",
+            "arn:aws:iam::XXXXX:role/Admin"
+        ]
+    }
+}

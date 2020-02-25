@@ -1,3 +1,8 @@
+variable "add_cross_account_role" {
+  description = "Add cross account role"
+  default     = true
+}
+
 variable "idp_name" {
   description = "Name for the IAM identity provider"
   default     = "OktaSSODefault"
@@ -13,10 +18,3 @@ variable "master_accounts" {
   type        = "list"
   default     = []
 }
-
-
-
-
-
-
-

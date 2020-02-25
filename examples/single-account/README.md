@@ -9,7 +9,7 @@ To run the example:
 
 ```bash
 $ make plan
-terraform plan
+
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
@@ -32,7 +32,7 @@ Terraform will perform the following actions:
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
-      name:                   "SSOAdminRole"
+      name:                   "Admin"
       path:                   "/"
       unique_id:              <computed>
 
@@ -43,44 +43,27 @@ Terraform will perform the following actions:
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
-      name:                   "SSOEC2Role"
+      name:                   "EC2ReadOnly"
       path:                   "/"
       unique_id:              <computed>
 
   + aws_iam_role_policy.sso_role_admin_policy
       id:                     <computed>
-      name:                   "SSOAdminRolePolicy"
+      name:                   "AdminPolicy"
       policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"NotAction\": [\n        \"organizations:*\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"organizations:DescribeOrganization\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "SSOAdminRole"
+      role:                   "Admin"
 
   + aws_iam_role_policy.sso_role_ec2_policy
       id:                     <computed>
-      name:                   "SSOEC2RolePolicy"
+      name:                   "EC2ReadOnlyPolicy"
       policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ec2:*\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "SSOEC2Role"
-
-  + module.okta_child_setup.aws_iam_role.okta_roles_lister
-      id:                     <computed>
-      arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"AWS\": \"XXXXX\"\n      }\n    }\n  ]\n}"
-      create_date:            <computed>
-      force_detach_policies:  "false"
-      max_session_duration:   "3600"
-      name:                   "Okta-Idp-cross-account-role"
-      path:                   "/"
-      unique_id:              <computed>
-
-  + module.okta_child_setup.aws_iam_role_policy.okta_iam_read_only
-      id:                     <computed>
-      name:                   "Okta-Idp-cross-account-role-policy"
-      policy:                 "{\n      \"Version\": \"2012-10-17\",\n      \"Statement\": [\n          {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"iam:ListRoles\",\n                \"iam:ListAccountAliases\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}\n"
-      role:                   "${aws_iam_role.okta_roles_lister.id}"
+      role:                   "EC2ReadOnly"
 
   + module.okta_child_setup.aws_iam_saml_provider.okta_saml_provider
       id:                     <computed>
       arn:                    <computed>
-      name:                   "OktaDemo"
-      saml_metadata_document: "<?xml version=\"1.0\"...</md:EntityDescriptor>"
+      name:                   "DemoOkta"
+      saml_metadata_document: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>..."
       valid_until:            <computed>
 
   + module.okta_master_setup.aws_iam_user.okta_app_user
@@ -94,11 +77,11 @@ Terraform will perform the following actions:
   + module.okta_master_setup.aws_iam_user_policy.okta_app_user_policy
       id:                     <computed>
       name:                   "Okta-SSO-User-Policy"
-      policy:                 "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n          \"Effect\": \"Allow\",\n          \"Action\": [\n              \"iam:ListRoles\",\n              \"iam:ListAccountAliases\"\n          ],\n          \"Resource\": \"*\"\n        }\n    ]\n}\n"
+      policy:                 "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n          \"Effect\": \"Allow\",\n          \"Action\": [\n              \"iam:ListRoles\",\n              \"iam:ListAccountAliases\",\n              \"iam:GetUser\",\n              \"sts:AssumeRole\"\n          ],\n          \"Resource\": \"*\"\n        }\n    ]\n}\n"
       user:                   "okta-app-user"
 
 
-Plan: 9 to add, 0 to change, 0 to destroy.
+Plan: 7 to add, 0 to change, 0 to destroy.
 
 ------------------------------------------------------------------------
 
@@ -138,4 +121,4 @@ can't guarantee that exactly these actions will be performed if
 ```
 You can assume these two role now via Okta login!
 
-<img width="500px" src="images/aws_login.png"/>
+<img width="500px" src="../images/aws_login.png"/>

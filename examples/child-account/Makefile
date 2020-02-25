@@ -1,4 +1,4 @@
-.terraform:
+s.terraform:
 	terraform init
 
 plan: .terraform

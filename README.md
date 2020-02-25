@@ -30,6 +30,6 @@ When using these modules in your own code, you will need to use a Git URL with a
   
 ```hcl-terraform
 module "okta_master" {
-  source = "github.com/nayyara-samuel/terraform-okta-aws.git/modules/master?ref=0.1.0"  
+  source = "github.com/nayyara-samuel/terraform-okta-aws.git/modules/master?ref=0.2.0"  
 }
 ```
