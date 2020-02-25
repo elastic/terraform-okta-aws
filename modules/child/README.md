@@ -8,4 +8,4 @@ Creates the following:
 
 For single account setup, set `master-account` to empty array. For multi-account setup, set `master-account` to include master account-id.
  
-![multi](images/okta_multi_account.png)
+![multi](../../img/okta_multi_account.png)

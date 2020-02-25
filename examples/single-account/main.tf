@@ -22,7 +22,7 @@ module "okta_child_setup" {
 
 // create a role that is assumable by Okta
 resource "aws_iam_role" "sso_role_ec2" {
-  name               = "EC2ReadOnly"
+  name               = "DemoOktaEC2ReadOnly"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -34,7 +34,7 @@ JSON
 }
 
 resource "aws_iam_role_policy" "sso_role_ec2_policy" {
-  name   = "EC2ReadOnlyPolicy"
+  name   = "DemoOktaEC2ReadOnlyPolicy"
   role   = "${aws_iam_role.sso_role_ec2.name}"
   policy = <<JSON
 {
@@ -54,7 +54,7 @@ JSON
 
 // create another role that is assumable by Okta
 resource "aws_iam_role" "sso_role_admin" {
-  name               = "Admin"
+  name               = "DemoOktaAdmin"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -65,7 +65,7 @@ resource "aws_iam_role" "sso_role_admin" {
 JSON
 }
 resource "aws_iam_role_policy" "sso_role_admin_policy" {
-  name   = "AdminPolicy"
+  name   = "DemoOktaAdminPolicy"
   role   = "${aws_iam_role.sso_role_admin.name}"
   policy = <<JSON
 {

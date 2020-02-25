@@ -1,4 +1,6 @@
-s.terraform:
+export TF_IN_AUTOMATION=true
+
+.terraform:
 	terraform init
 
 plan: .terraform

@@ -15,10 +15,11 @@ resource "aws_iam_user_policy" "okta_app_user_policy" {
         {
           "Effect": "Allow",
           "Action": [
-              "iam:ListRoles",
-              "iam:ListAccountAliases",
-              "iam:GetUser",
-              "sts:AssumeRole"
+                "iam:GetAccountSummary",
+                "iam:ListRoles",
+                "iam:ListAccountAliases",
+                "iam:GetUser",
+                "sts:AssumeRole"
           ],
           "Resource": "*"
         }

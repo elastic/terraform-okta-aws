@@ -3,7 +3,7 @@ variable "idp_metadata_file" {
   default     = "metadata.xml"
 }
 
-variable "master_account_ids" {
+variable "master_accounts" {
   description = "Okta master account ID"
   type        = "list"
   default     = []

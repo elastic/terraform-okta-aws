@@ -1,11 +1,11 @@
 # Okta Single Account Setup
 
-This example setups an AWS account for login via Okta. It creates a single role `SSOTestRole` which can be assumed via Okta. 
+This example setups an AWS account for login via Okta, using both Okta modules [master](../../modules/master) and [child](../../modules/child) in one account. It creates two roles which can be assumed via Okta. 
 
 To run the example:
 1) Create an AWS app in Okta.
 2) Download the metadata into the file `metadata.xml`
-3) Run `make plan` (do not forget to set AWS creds in environment). Sample output:
+3) Run `make plan` (don't forget to set AWS credentials for Terraform). Sample output:
 
 ```bash
 $ make plan
@@ -15,7 +15,7 @@ The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
 data.aws_caller_identity.current: Refreshing state...
-data.aws_iam_policy_document.okta_roles_lister_assume_policy: Refreshing state...
+data.aws_iam_policy_document.okta_cross_account_role_assume_policy: Refreshing state...
 
 ------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ Terraform will perform the following actions:
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
-      name:                   "Admin"
+      name:                   "DemoOktaAdmin"
       path:                   "/"
       unique_id:              <computed>
 
@@ -43,27 +43,27 @@ Terraform will perform the following actions:
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
-      name:                   "EC2ReadOnly"
+      name:                   "DemoOktaEC2ReadOnly"
       path:                   "/"
       unique_id:              <computed>
 
   + aws_iam_role_policy.sso_role_admin_policy
       id:                     <computed>
-      name:                   "AdminPolicy"
+      name:                   "DemoOktaAdminPolicy"
       policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"NotAction\": [\n        \"organizations:*\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"organizations:DescribeOrganization\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "Admin"
+      role:                   "DemoOktaAdmin"
 
   + aws_iam_role_policy.sso_role_ec2_policy
       id:                     <computed>
-      name:                   "EC2ReadOnlyPolicy"
+      name:                   "DemoOktaEC2ReadOnlyPolicy"
       policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ec2:*\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "EC2ReadOnly"
+      role:                   "DemoOktaEC2ReadOnly"
 
   + module.okta_child_setup.aws_iam_saml_provider.okta_saml_provider
       id:                     <computed>
       arn:                    <computed>
       name:                   "DemoOkta"
-      saml_metadata_document: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>..."
+      saml_metadata_document: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><md:EntityDescriptor...>...</md:EntityDescriptor>"
       valid_until:            <computed>
 
   + module.okta_master_setup.aws_iam_user.okta_app_user
@@ -77,17 +77,11 @@ Terraform will perform the following actions:
   + module.okta_master_setup.aws_iam_user_policy.okta_app_user_policy
       id:                     <computed>
       name:                   "Okta-SSO-User-Policy"
-      policy:                 "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n          \"Effect\": \"Allow\",\n          \"Action\": [\n              \"iam:ListRoles\",\n              \"iam:ListAccountAliases\",\n              \"iam:GetUser\",\n              \"sts:AssumeRole\"\n          ],\n          \"Resource\": \"*\"\n        }\n    ]\n}\n"
+      policy:                 "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n          \"Effect\": \"Allow\",\n          \"Action\": [\n                \"iam:GetAccountSummary\",\n                \"iam:ListRoles\",\n                \"iam:ListAccountAliases\",\n                \"iam:GetUser\",\n                \"sts:AssumeRole\"\n          ],\n          \"Resource\": \"*\"\n        }\n    ]\n}\n"
       user:                   "okta-app-user"
 
 
 Plan: 7 to add, 0 to change, 0 to destroy.
-
-------------------------------------------------------------------------
-
-Note: You didn't specify an "-out" parameter to save this plan, so Terraform
-can't guarantee that exactly these actions will be performed if
-"terraform apply" is subsequently run.
 ```
 
 4) Run `make apply` -  this runs Terraform apply operation. 
@@ -103,9 +97,12 @@ can't guarantee that exactly these actions will be performed if
 }
 ```
 
-6) Login to your account and generate an access and secret key for the user created above.
-7) Use the credentials to configure the AWS Okta app. 
-8) You should also see the following in the outputs section:
+6) Login to your AWS account and generate an access and secret key for the user created above.
+7) Use the credentials to configure the AWS Okta app. See the [Okta App Configuration](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#A-step4) docs.
+8) Remember to update the IDP Arn in Okta app:
+<img width="600px" src="../../img/okta_config_arn.png"/>
+
+9) You should also see the following in the outputs section:
 
 ```json
 {
@@ -113,12 +110,12 @@ can't guarantee that exactly these actions will be performed if
         "sensitive": false,
         "type": "list",
         "value": [
-            "arn:aws:iam::XXXXX:role/SSOEC2Role",
-            "arn:aws:iam::XXXXX:role/SSOAdminRole"
-        ]
+            "arn:aws:iam::XXXX:role/DemoOktaEC2ReadOnly",
+            "arn:aws:iam::XXXX:role/DemoOktaAdmin"
+         ]
     }
 }
 ```
-You can assume these two role now via Okta login!
+Once you have mapped users to these roles via the Okta, they can assume these two role into AWS!
 
-<img width="500px" src="../images/aws_login.png"/>
+<img width="500px" src="../../img/aws_login.png"/>

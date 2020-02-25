@@ -7,4 +7,4 @@ Creates the following:
 * IAM user in target account for use with Okta AWS app
 * IAM policy for user which allows only listing roles and account aliases
 
-Used to generate user for Okta to download AWS role. Automates user creation for the step, [generate AWS access key](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#A-step3) in Okta setup documentation.  
+Used to generate user for Okta to download AWS role. Automates user creation for the step, [setting up access to download AWS roles](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#A-step3) in Okta setup documentation.  

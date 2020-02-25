@@ -9,15 +9,15 @@ provider "aws" {
 
 module "okta_child_setup" {
   source                 = "../../modules/child"
-  idp_name               = "DemoOkta"
+  idp_name               = "DemoOkta2"
   idp_metadata           = "${file(var.idp_metadata_file)}"
-  master_accounts        = ["${var.master_account_ids}"]
+  master_accounts        = ["${var.master_accounts}"]
   add_cross_account_role = false
 }
 
 // create a role that is assumable by Okta
 resource "aws_iam_role" "sso_role_ec2" {
-  name               = "EC2ReadOnly"
+  name               = "DemoOkta2EC2ReadOnly"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -29,7 +29,7 @@ JSON
 }
 
 resource "aws_iam_role_policy" "sso_role_ec2_policy" {
-  name   = "EC2ReadOnlyPolicy"
+  name   = "DemoOkta2EC2ReadOnlyPolicy"
   role   = "${aws_iam_role.sso_role_ec2.name}"
   policy = <<JSON
 {
@@ -49,7 +49,7 @@ JSON
 
 // create another role that is assumable by Okta
 resource "aws_iam_role" "sso_role_admin" {
-  name               = "Admin"
+  name               = "DemoOkta2Admin"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -60,7 +60,7 @@ resource "aws_iam_role" "sso_role_admin" {
 JSON
 }
 resource "aws_iam_role_policy" "sso_role_admin_policy" {
-  name   = "AdminPolicy"
+  name   = "DemoOkta2AdminPolicy"
   role   = "${aws_iam_role.sso_role_admin.name}"
   policy = <<JSON
 {
