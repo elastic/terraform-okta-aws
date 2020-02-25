@@ -3,7 +3,7 @@
 This repo contains a Terraform module for connecting a given AWS account with an Okta AWS app. A Terraform Module refers to a self-contained packages of Terraform configurations that are managed as a group. 
 
 Okta's integration with Amazon Web Services (AWS) allows end users to authenticate to one or more AWS accounts and gain access to specific roles using single sign-on with SAML. 
-For a detailed explanation of Okta SSO setup with AWS, see the [Okta SAMP 2.0 AWS Guide](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service).
+For a detailed explanation of Okta SSO setup with AWS, see the [Okta SAML 2.0 AWS Guide](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service).
 
 This module can be used to setup an account for both scenarios supported by Okta:
 * [*"Connect Okta to a single AWS account"*](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#scenarioA)
@@ -12,8 +12,8 @@ This module can be used to setup an account for both scenarios supported by Okta
 # Conventions
 This Module adheres to [Terraform Module Conventions](https://www.terraform.io/docs/modules/index.html) and has the following folder structure:
 
-* [modules](/module): This folder contains the reusable code for this Terraform Module, broken down into one or more submodules.
-* [examples](/example): This folder contains examples of how to use the submodules.
+* **modules**: This folder contains the reusable code for this Terraform Module, broken down into one or more submodules.
+* **examples** : This folder contains examples of how to use the submodules.
 
 # Contributing
 
