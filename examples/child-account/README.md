@@ -5,7 +5,7 @@ The code assumes you've already setup the master account and Okta AWS app.
 
 To run the example:
 1) Create an AWS app in Okta and configure the master account.
-2) Set the environment variable `TF_VAR_master_account_ids` to master accounts, using format: `[YYYYY]`.
+2) Set the environment variable `TF_VAR_master_account_ids` to master accounts, using format: `[<MASTER_ACCOUNT_ID>]`.
 3) Download the metadata into the file `metadata.xml`
 4) Run `make plan` (don't forget to set AWS credentials for Terraform). Sample output:
 
