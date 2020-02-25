@@ -20,8 +20,8 @@ module "okta_child_setup" {
 }
 
 // create a role that is assumable by Okta
-resource "aws_iam_role" "sso_role_tester" {
-  name               = "SSOTestRole"
+resource "aws_iam_role" "sso_role_ec2" {
+  name               = "SSOEC2Role"
   assume_role_policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -32,9 +32,9 @@ resource "aws_iam_role" "sso_role_tester" {
 JSON
 }
 
-resource "aws_iam_role_policy" "sso_role_tester_policy" {
-  name = "SSOTestRolePolicy"
-  role   = "${aws_iam_role.sso_role_tester.name}"
+resource "aws_iam_role_policy" "sso_role_ec2_policy" {
+  name   = "SSOEC2RolePolicy"
+  role   = "${aws_iam_role.sso_role_ec2.name}"
   policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -42,7 +42,45 @@ resource "aws_iam_role_policy" "sso_role_tester_policy" {
     {
       "Effect": "Allow",
       "Action": [
-        "ec2:Decribe*"
+        "ec2:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+JSON
+}
+
+// create another role that is assumable by Okta
+resource "aws_iam_role" "sso_role_admin" {
+  name               = "SSOAdminRole"
+  assume_role_policy = <<JSON
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    ${module.okta_child_setup.okta_assume_role_stanza}
+  ]
+}
+JSON
+}
+resource "aws_iam_role_policy" "sso_role_admin_policy" {
+  name   = "SSOAdminRolePolicy"
+  role   = "${aws_iam_role.sso_role_admin.name}"
+  policy = <<JSON
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "NotAction": [
+        "organizations:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "organizations:DescribeOrganization"
       ],
       "Resource": "*"
     }

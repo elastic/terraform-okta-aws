@@ -9,6 +9,7 @@ To run the example:
 
 ```bash
 $ make plan
+terraform plan
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
@@ -24,27 +25,44 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  + aws_iam_role.sso_role_tester
+  + aws_iam_role.sso_role_admin
       id:                     <computed>
       arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [ ,\n    ${module.okta_child_setup.assume_role_stanza}\n  ]\n}\n"
+      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_stanza}\n  ]\n}\n"
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
-      name:                   "SSOTestRole"
+      name:                   "SSOAdminRole"
       path:                   "/"
       unique_id:              <computed>
 
-  + aws_iam_role_policy.sso_role_tester_policy
+  + aws_iam_role.sso_role_ec2
       id:                     <computed>
-      name:                   <computed>
-      policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"NotAction\": [\n        \"organizations:*\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ec2:Decribe*\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "${aws_iam_role.sso_role_tester.id}"
+      arn:                    <computed>
+      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_stanza}\n  ]\n}\n"
+      create_date:            <computed>
+      force_detach_policies:  "false"
+      max_session_duration:   "3600"
+      name:                   "SSOEC2Role"
+      path:                   "/"
+      unique_id:              <computed>
+
+  + aws_iam_role_policy.sso_role_admin_policy
+      id:                     <computed>
+      name:                   "SSOAdminRolePolicy"
+      policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"NotAction\": [\n        \"organizations:*\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"organizations:DescribeOrganization\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
+      role:                   "SSOAdminRole"
+
+  + aws_iam_role_policy.sso_role_ec2_policy
+      id:                     <computed>
+      name:                   "SSOEC2RolePolicy"
+      policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ec2:*\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
+      role:                   "SSOEC2Role"
 
   + module.okta_child_setup.aws_iam_role.okta_roles_lister
       id:                     <computed>
       arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"AWS\": \"328738285619\"\n      }\n    }\n  ]\n}"
+      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"AWS\": \"XXXXX\"\n      }\n    }\n  ]\n}"
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
@@ -62,7 +80,7 @@ Terraform will perform the following actions:
       id:                     <computed>
       arn:                    <computed>
       name:                   "OktaDemo"
-      saml_metadata_document: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>..."
+      saml_metadata_document: "<?xml version=\"1.0\"...</md:EntityDescriptor>"
       valid_until:            <computed>
 
   + module.okta_master_setup.aws_iam_user.okta_app_user
@@ -80,14 +98,13 @@ Terraform will perform the following actions:
       user:                   "okta-app-user"
 
 
-Plan: 7 to add, 0 to change, 0 to destroy.
+Plan: 9 to add, 0 to change, 0 to destroy.
 
 ------------------------------------------------------------------------
 
 Note: You didn't specify an "-out" parameter to save this plan, so Terraform
 can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
-
 ```
 
 4) Run `make apply` -  this runs Terraform apply operation. 
@@ -109,12 +126,16 @@ can't guarantee that exactly these actions will be performed if
 
 ```json
 {
-    "sso_role_arn": {
+    "sso_role_arns": {
         "sensitive": false,
-        "type": "string",
-        "value": "arn:aws:iam::XXXXX:role/SSOTestRole"
+        "type": "list",
+        "value": [
+            "arn:aws:iam::XXXXX:role/SSOEC2Role",
+            "arn:aws:iam::XXXXX:role/SSOAdminRole"
+        ]
     }
 }
 ```
-You can assume this role now via Okta login!
+You can assume these two role now via Okta login!
 
+<img width="500px" src="images/aws_login.png"/>

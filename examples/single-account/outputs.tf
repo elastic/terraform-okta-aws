@@ -11,6 +11,7 @@ output "okta_idp_arn" {
   value = "${module.okta_child_setup.okta_idp_arn}"
 }
 
-output "sso_role_arn" {
-  value = "${aws_iam_role.sso_role_tester.arn}"
+output "sso_role_arns" {
+  value = ["${aws_iam_role.sso_role_ec2.arn}", "${aws_iam_role.sso_role_admin.arn}"]
 }
+

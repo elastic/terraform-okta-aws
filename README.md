@@ -6,8 +6,8 @@ Okta's integration with Amazon Web Services (AWS) allows end users to authentica
 For a detailed explanation of Okta SSO setup with AWS, see the [Okta SAMP 2.0 AWS Guide](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service).
 
 This module can be used to setup an account for both scenarios supported by Okta:
-* *"Connect Okta to a single AWS account"*
-* *"Connect Okta to multiple AWS accounts"*
+* [*"Connect Okta to a single AWS account"*](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#scenarioA)
+* [*"Connect Okta to multiple AWS accounts"*](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#scenarioB)
 
 # Conventions
 This Module adheres to [Terraform Module Conventions](https://www.terraform.io/docs/modules/index.html) and has the following folder structure:

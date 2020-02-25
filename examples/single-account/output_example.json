@@ -14,9 +14,12 @@
         "type": "string",
         "value": "arn:aws:iam::XXXXX:user/okta-app-user"
     },
-    "sso_role_arn": {
+    "sso_role_arns": {
         "sensitive": false,
-        "type": "string",
-        "value": "arn:aws:iam::XXXXX:role/SSOTestRole"
+        "type": "list",
+        "value": [
+            "arn:aws:iam::XXXXX:role/SSOEC2Role",
+            "arn:aws:iam::XXXXX:role/SSOAdminRole"
+        ]
     }
 }
