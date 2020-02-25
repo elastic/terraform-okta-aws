@@ -1,0 +1,22 @@
+{
+    "okta_cross_account_role": {
+        "sensitive": false,
+        "type": "string",
+        "value": "arn:aws:iam::XXXXX:role/Okta-Idp-cross-account-role"
+    },
+    "okta_idp_arn": {
+        "sensitive": false,
+        "type": "string",
+        "value": "arn:aws:iam::XXXXX:saml-provider/OktaDemo"
+    },
+    "okta_user": {
+        "sensitive": false,
+        "type": "string",
+        "value": "arn:aws:iam::XXXXX:user/okta-app-user"
+    },
+    "sso_role_arn": {
+        "sensitive": false,
+        "type": "string",
+        "value": "arn:aws:iam::XXXXX:role/SSOTestRole"
+    }
+}
