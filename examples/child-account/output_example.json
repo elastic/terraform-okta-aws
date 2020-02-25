@@ -1,5 +1,5 @@
 {
-    "okta_assume_role_stanza": {
+    "okta_assume_role_statement": {
         "sensitive": false,
         "type": "string",
         "value": "{\n  \"Effect\": \"Allow\",\n  \"Principal\": {\n    \"Federated\": \"arn:aws:iam::XXXXX:saml-provider/DemoOkta\"\n  },\n  \"Action\": \"sts:AssumeRoleWithSAML\",\n  \"Condition\": {\n    \"StringEquals\": {\n      \"SAML:aud\": \"https://signin.aws.amazon.com/saml\"\n    }\n  }\n}\n"

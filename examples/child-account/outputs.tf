@@ -2,8 +2,8 @@ output "okta_idp_arn" {
   value = "${module.okta_child_setup.okta_idp_arn}"
 }
 
-output "okta_assume_role_stanza" {
-  value = "${module.okta_child_setup.okta_assume_role_stanza}"
+output "okta_assume_role_statement" {
+  value = "${module.okta_child_setup.okta_assume_role_statement}"
 }
 
 output "sso_role_arns" {

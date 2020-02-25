@@ -3,9 +3,9 @@ output "okta_idp_arn" {
   value       = "${aws_iam_saml_provider.okta_saml_provider.arn}"
 }
 
-output "okta_assume_role_stanza" {
-  description = "Assume role stanza to be added to roles assumable by IDP"
-  value       = "${local.okta_assume_role_stanza}"
+output "okta_assume_role_statement" {
+  description = "Assume role policy statement to be added to roles assumable by IDP"
+  value       = "${local.okta_assume_role_statement}"
 }
 
 output "okta_cross_account_role" {

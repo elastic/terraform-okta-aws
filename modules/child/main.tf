@@ -4,7 +4,7 @@ resource "aws_iam_saml_provider" "okta_saml_provider" {
 }
 
 locals {
-  okta_assume_role_stanza = <<EOF
+  okta_assume_role_statement = <<EOF
 {
   "Effect": "Allow",
   "Principal": {

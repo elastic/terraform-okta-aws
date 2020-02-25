@@ -28,7 +28,7 @@ Terraform will perform the following actions:
   + aws_iam_role.sso_role_admin
       id:                     <computed>
       arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_stanza}\n  ]\n}\n"
+      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_statement}\n  ]\n}\n"
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"
@@ -39,7 +39,7 @@ Terraform will perform the following actions:
   + aws_iam_role.sso_role_ec2
       id:                     <computed>
       arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_stanza}\n  ]\n}\n"
+      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_statement}\n  ]\n}\n"
       create_date:            <computed>
       force_detach_policies:  "false"
       max_session_duration:   "3600"

@@ -27,7 +27,7 @@ resource "aws_iam_role" "sso_role_ec2" {
 {
   "Version": "2012-10-17",
   "Statement": [
-    ${module.okta_child_setup.okta_assume_role_stanza}
+    ${module.okta_child_setup.okta_assume_role_statement}
   ]
 }
 JSON
@@ -59,7 +59,7 @@ resource "aws_iam_role" "sso_role_admin" {
 {
   "Version": "2012-10-17",
   "Statement": [
-    ${module.okta_child_setup.okta_assume_role_stanza}
+    ${module.okta_child_setup.okta_assume_role_statement}
   ]
 }
 JSON
