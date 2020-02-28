@@ -70,13 +70,13 @@ Terraform will perform the following actions:
       id:                     <computed>
       arn:                    <computed>
       force_destroy:          "false"
-      name:                   "okta-app-user"
+      name:                   "okta-config-user"
       path:                   "/"
       unique_id:              <computed>
 
   + module.okta_master_setup.aws_iam_user_policy.okta_app_user_policy
       id:                     <computed>
-      name:                   "Okta-SSO-User-Policy"
+      name:                   "OktaConfigUserPolicy"
       policy:                 "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n          \"Effect\": \"Allow\",\n          \"Action\": [\n                \"iam:GetAccountSummary\",\n                \"iam:ListRoles\",\n                \"iam:ListAccountAliases\",\n                \"iam:GetUser\",\n                \"sts:AssumeRole\"\n          ],\n          \"Resource\": \"*\"\n        }\n    ]\n}\n"
       user:                   "okta-app-user"
 

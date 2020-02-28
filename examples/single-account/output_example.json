@@ -12,7 +12,7 @@
     "okta_user": {
         "sensitive": false,
         "type": "string",
-        "value": "arn:aws:iam::XXXX:user/okta-app-user"
+        "value": "arn:aws:iam::XXXX:user/okta-config-user"
     },
     "sso_role_arns": {
         "sensitive": false,

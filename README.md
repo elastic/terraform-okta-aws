@@ -1,6 +1,6 @@
 # Okta AWS
 
-![CI](https://github.com/nayyara-samuel/terraform-okta-aws/workflows/CI/badge.svg)
+![CI](https://github.com/elastic/terraform-okta-aws/workflows/CI/badge.svg)
 
 This repo contains Terraform modules for setting up/connecting AWS account(s) with an Okta AWS app. A Terraform Module refers to a self-contained packages of Terraform configurations that are managed as a group. 
 

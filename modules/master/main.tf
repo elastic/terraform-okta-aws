@@ -5,7 +5,7 @@ resource "aws_iam_user" "okta_app_user" {
 }
 
 resource "aws_iam_user_policy" "okta_app_user_policy" {
-  name = "Okta-SSO-User-Policy"
+  name = "OktaConfigUserPolicy"
   user = "${aws_iam_user.okta_app_user.name}"
 
   policy = <<EOF
