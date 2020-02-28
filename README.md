@@ -1,4 +1,4 @@
-# Okta AWS
+# Okta AWS Terraform Modules
 
 ![CI](https://github.com/elastic/terraform-okta-aws/workflows/CI/badge.svg)
 
