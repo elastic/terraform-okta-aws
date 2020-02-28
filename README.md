@@ -33,11 +33,11 @@ When using these modules in your own code, you will need to use a Git URL with a
   
 ```hcl-terraform
 module "okta_master" {
-  source = "github.com/elastic/terraform-okta-aws.git/modules/master?ref=v0.1.0"  
+  source = "github.com/elastic/terraform-okta-aws.git/modules/master?ref=v0.1.1"  
 }
 
 module "okta_child" {
-  source = "github.com/elastic/terraform-okta-aws.git/modules/child?ref=v0.1.0"  
+  source = "github.com/elastic/terraform-okta-aws.git/modules/child?ref=v0.1.1"  
 }
 ```
 
