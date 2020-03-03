@@ -1,25 +1,34 @@
 {
-    "okta_cross_account_role": {
-        "sensitive": false,
-        "type": "list",
-        "value": []
-    },
-    "okta_idp_arn": {
-        "sensitive": false,
-        "type": "string",
-        "value": "arn:aws:iam::XXXX:saml-provider/DemoOkta"
-    },
-    "okta_user": {
-        "sensitive": false,
-        "type": "string",
-        "value": "arn:aws:iam::XXXX:user/okta-config-user"
-    },
-    "sso_role_arns": {
-        "sensitive": false,
-        "type": "list",
-        "value": [
-            "arn:aws:iam::XXXX:role/DemoOktaEC2ReadOnly",
-            "arn:aws:iam::XXXX:role/DemoOktaAdmin"
-        ]
-    }
+  "okta_cross_account_role": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      []
+    ],
+    "value": []
+  },
+  "okta_idp_arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:iam::XXXXX:saml-provider/DemoOkta"
+  },
+  "okta_user": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:iam::XXXXX:user/okta-app-user"
+  },
+  "sso_role_arns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "arn:aws:iam::XXXXX:role/DemoOktaEC2ReadOnly",
+      "arn:aws:iam::XXXXX:role/DemoOktaAdmin"
+    ]
+  }
 }

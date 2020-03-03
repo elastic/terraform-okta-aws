@@ -14,8 +14,8 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-data.aws_caller_identity.current: Refreshing state...
-data.aws_iam_policy_document.okta_cross_account_role_assume_policy: Refreshing state...
+module.okta_master_setup.data.aws_caller_identity.current: Refreshing state...
+module.okta_child_setup.data.aws_iam_policy_document.okta_cross_account_role_assume_policy: Refreshing state...
 
 ------------------------------------------------------------------------
 
@@ -25,61 +25,128 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  + aws_iam_role.sso_role_admin
-      id:                     <computed>
-      arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_statement}\n  ]\n}\n"
-      create_date:            <computed>
-      force_detach_policies:  "false"
-      max_session_duration:   "3600"
-      name:                   "DemoOktaAdmin"
-      path:                   "/"
-      unique_id:              <computed>
+  # aws_iam_role.sso_role_admin will be created
+  + resource "aws_iam_role" "sso_role_admin" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = (known after apply)
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "DemoOktaAdmin"
+      + path                  = "/"
+      + unique_id             = (known after apply)
+    }
 
-  + aws_iam_role.sso_role_ec2
-      id:                     <computed>
-      arn:                    <computed>
-      assume_role_policy:     "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    ${module.okta_child_setup.okta_assume_role_statement}\n  ]\n}\n"
-      create_date:            <computed>
-      force_detach_policies:  "false"
-      max_session_duration:   "3600"
-      name:                   "DemoOktaEC2ReadOnly"
-      path:                   "/"
-      unique_id:              <computed>
+  # aws_iam_role.sso_role_ec2 will be created
+  + resource "aws_iam_role" "sso_role_ec2" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = (known after apply)
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "DemoOktaEC2ReadOnly"
+      + path                  = "/"
+      + unique_id             = (known after apply)
+    }
 
-  + aws_iam_role_policy.sso_role_admin_policy
-      id:                     <computed>
-      name:                   "DemoOktaAdminPolicy"
-      policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"NotAction\": [\n        \"organizations:*\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"organizations:DescribeOrganization\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "DemoOktaAdmin"
+  # aws_iam_role_policy.sso_role_admin_policy will be created
+  + resource "aws_iam_role_policy" "sso_role_admin_policy" {
+      + id     = (known after apply)
+      + name   = "DemoOktaAdminPolicy"
+      + policy = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Effect    = "Allow"
+                      + NotAction = [
+                          + "organizations:*",
+                        ]
+                      + Resource  = "*"
+                    },
+                  + {
+                      + Action   = [
+                          + "organizations:DescribeOrganization",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role   = "DemoOktaAdmin"
+    }
 
-  + aws_iam_role_policy.sso_role_ec2_policy
-      id:                     <computed>
-      name:                   "DemoOktaEC2ReadOnlyPolicy"
-      policy:                 "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ec2:*\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n"
-      role:                   "DemoOktaEC2ReadOnly"
+  # aws_iam_role_policy.sso_role_ec2_policy will be created
+  + resource "aws_iam_role_policy" "sso_role_ec2_policy" {
+      + id     = (known after apply)
+      + name   = "DemoOktaEC2ReadOnlyPolicy"
+      + policy = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "ec2:*",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role   = "DemoOktaEC2ReadOnly"
+    }
 
-  + module.okta_child_setup.aws_iam_saml_provider.okta_saml_provider
-      id:                     <computed>
-      arn:                    <computed>
-      name:                   "DemoOkta"
-      saml_metadata_document: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><md:EntityDescriptor...>...</md:EntityDescriptor>"
-      valid_until:            <computed>
+  # module.okta_child_setup.aws_iam_saml_provider.okta_saml_provider will be created
+  + resource "aws_iam_saml_provider" "okta_saml_provider" {
+      + arn                    = (known after apply)
+      + id                     = (known after apply)
+      + name                   = "DemoOkta"
+      + saml_metadata_document = <<~EOT            
+            <?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor entityID="http://www.okta.com/..." 
+                        ...
+            </md:EntityDescriptor>
+        EOT
+      + valid_until            = (known after apply)
+    }
 
-  + module.okta_master_setup.aws_iam_user.okta_app_user
-      id:                     <computed>
-      arn:                    <computed>
-      force_destroy:          "false"
-      name:                   "okta-config-user"
-      path:                   "/"
-      unique_id:              <computed>
+  # module.okta_master_setup.aws_iam_user.okta_app_user will be created
+  + resource "aws_iam_user" "okta_app_user" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "okta-app-user"
+      + path          = "/"
+      + unique_id     = (known after apply)
+    }
 
-  + module.okta_master_setup.aws_iam_user_policy.okta_app_user_policy
-      id:                     <computed>
-      name:                   "OktaConfigUserPolicy"
-      policy:                 "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n          \"Effect\": \"Allow\",\n          \"Action\": [\n                \"iam:GetAccountSummary\",\n                \"iam:ListRoles\",\n                \"iam:ListAccountAliases\",\n                \"iam:GetUser\",\n                \"sts:AssumeRole\"\n          ],\n          \"Resource\": \"*\"\n        }\n    ]\n}\n"
-      user:                   "okta-app-user"
-
+  # module.okta_master_setup.aws_iam_user_policy.okta_app_user_policy will be created
+  + resource "aws_iam_user_policy" "okta_app_user_policy" {
+      + id     = (known after apply)
+      + name   = "OktaConfigUserPolicy"
+      + policy = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "iam:GetAccountSummary",
+                          + "iam:ListRoles",
+                          + "iam:ListAccountAliases",
+                          + "iam:GetUser",
+                          + "sts:AssumeRole",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + user   = "okta-app-user"
+    }
 
 Plan: 7 to add, 0 to change, 0 to destroy.
 ```
@@ -89,11 +156,11 @@ Plan: 7 to add, 0 to change, 0 to destroy.
 
 ```json
 {
- "okta_user": {
-        "sensitive": false,
-        "type": "string",
-        "value": "arn:aws:iam::XXXXX:user/okta-app-user"
-    }
+  "okta_user": {
+    "sensitive": false,
+      "type": "string",
+      "value": "arn:aws:iam::XXXXX:user/okta-app-user"
+  }
 }
 ```
 
@@ -106,14 +173,20 @@ Plan: 7 to add, 0 to change, 0 to destroy.
 
 ```json
 {
-    "sso_role_arns": {
-        "sensitive": false,
-        "type": "list",
-        "value": [
-            "arn:aws:iam::XXXX:role/DemoOktaEC2ReadOnly",
-            "arn:aws:iam::XXXX:role/DemoOktaAdmin"
-         ]
-    }
+  "sso_role_arns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "arn:aws:iam::XXXXX:role/DemoOktaEC2ReadOnly",
+      "arn:aws:iam::XXXXX:role/DemoOktaAdmin"
+    ]
+  }
 }
 ```
 Once you have mapped users to these roles via the Okta, they can assume these two role into AWS!

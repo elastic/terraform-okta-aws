@@ -172,14 +172,20 @@ Plan: 7 to add, 0 to change, 0 to destroy.
 
 ```json
 {
-    "sso_role_arns": {
-        "sensitive": false,
-        "type": "list",
-        "value": [
-            "arn:aws:iam::XXXXX:role/DemoOkta2EC2ReadOnly",
-            "arn:aws:iam::XXXXX:role/DemoOkta2Admin"
-        ]
-    }
+  "sso_role_arns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "arn:aws:iam::XXXXX:role/DemoOkta2EC2ReadOnly",
+      "arn:aws:iam::XXXXX:role/DemoOkta2Admin"
+    ]
+  }
 }
 ```
 Once you have mapped users to these roles via the Okta, they can assume these two role into AWS!

@@ -18,12 +18,12 @@
 // User for configuring the AWS app in Okta
 // See docs: https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#A-step3
 resource "aws_iam_user" "okta_app_user" {
-  name = "${var.user_name}"
+  name = var.user_name
 }
 
 resource "aws_iam_user_policy" "okta_app_user_policy" {
   name = "OktaConfigUserPolicy"
-  user = "${aws_iam_user.okta_app_user.name}"
+  user = aws_iam_user.okta_app_user.name
 
   policy = <<EOF
 {
