@@ -2,6 +2,8 @@
 
 ![CI](https://github.com/elastic/terraform-okta-aws/workflows/CI/badge.svg)
 
+**NOTE**: This module uses Terraform 12 syntax. If you're using Terraform 11, see [Usage](#usage).
+
 This repo contains Terraform modules for setting up/connecting AWS account(s) with an Okta AWS app. A Terraform module refers to a self-contained packages of Terraform configurations that are managed as a group. 
 
 Okta's integration with Amazon Web Services (AWS) allows end users to authenticate to one or more AWS accounts and gain access to specific roles using single sign-on with SAML. 
@@ -29,8 +31,11 @@ This module follows semantic versioning.
 
 # Usage
 
-When using these modules in your own code, you will need to use a Git URL with a ref attribute that pins you to a specific version of the modules, such as the following example:
-  
+When using these modules in your own code, you will need to use a Git URL with a ref attribute that pins you to a specific 
+version of the modules, such as the following example:
+
+
+***Terraform 11***:
 ```hcl-terraform
 module "okta_master" {
   source = "github.com/elastic/terraform-okta-aws.git/modules/master?ref=v0.1.1"  
@@ -40,6 +45,18 @@ module "okta_child" {
   source = "github.com/elastic/terraform-okta-aws.git/modules/child?ref=v0.1.1"  
 }
 ```
+
+***Terraform 12***:
+```hcl-terraform
+module "okta_master" {
+  source = "github.com/elastic/terraform-okta-aws.git/modules/master?ref=v1.0.0"  
+}
+
+module "okta_child" {
+  source = "github.com/elastic/terraform-okta-aws.git/modules/child?ref=v1.0.0"  
+}
+```
+
 
 After completing the setup, AWS roles can be assumed from Okta:
 <img width="500px" src="img/aws_login.png"/>
