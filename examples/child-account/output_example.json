@@ -1,20 +1,26 @@
 {
-    "okta_assume_role_statement": {
-        "sensitive": false,
-        "type": "string",
-        "value": "{\n  \"Effect\": \"Allow\",\n  \"Principal\": {\n    \"Federated\": \"arn:aws:iam::YYYYY:saml-provider/DemoOkta2\"\n  },\n  \"Action\": \"sts:AssumeRoleWithSAML\",\n  \"Condition\": {\n    \"StringEquals\": {\n      \"SAML:aud\": \"https://signin.aws.amazon.com/saml\"\n    }\n  }\n}\n"
-    },
-    "okta_idp_arn": {
-        "sensitive": false,
-        "type": "string",
-        "value": "arn:aws:iam::XXXXX:saml-provider/DemoOkta2"
-    },
-    "sso_role_arns": {
-        "sensitive": false,
-        "type": "list",
-        "value": [
-            "arn:aws:iam::XXXXX:role/DemoOkta2EC2ReadOnly",
-            "arn:aws:iam::XXXXX:role/DemoOkta2Admin"
-        ]
-    }
+  "okta_assume_role_statement": {
+    "sensitive": false,
+    "type": "string",
+    "value": "{\n  \"Effect\": \"Allow\",\n  \"Principal\": {\n    \"Federated\": \"arn:aws:iam::XXXXX:saml-provider/DemoOkta2\"\n  },\n  \"Action\": \"sts:AssumeRoleWithSAML\",\n  \"Condition\": {\n    \"StringEquals\": {\n      \"SAML:aud\": \"https://signin.aws.amazon.com/saml\"\n    }\n  }\n}\n"
+  },
+  "okta_idp_arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:iam::XXXXX:saml-provider/DemoOkta2"
+  },
+  "sso_role_arns": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "arn:aws:iam::XXXXX:role/DemoOkta2EC2ReadOnly",
+      "arn:aws:iam::XXXXX:role/DemoOkta2Admin"
+    ]
+  }
 }

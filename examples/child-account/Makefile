@@ -16,4 +16,10 @@ output: .terraform
 destroy: .terraform
 	terraform destroy -auto-approve
 
-.PHONY: plan apply output destroy
+fmt:
+	terraform fmt .
+
+clean:
+	rm -rf .terraform
+
+.PHONY: plan apply output destroy clean fmt

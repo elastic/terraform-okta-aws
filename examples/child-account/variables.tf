@@ -22,6 +22,6 @@ variable "idp_metadata_file" {
 
 variable "master_accounts" {
   description = "Okta master account ID"
-  type        = "list"
+  type        = list(string)
   default     = []
 }

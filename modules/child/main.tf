@@ -16,8 +16,8 @@
 // under the License.
 
 resource "aws_iam_saml_provider" "okta_saml_provider" {
-  name                   = "${var.idp_name}"
-  saml_metadata_document = "${var.idp_metadata}"
+  name                   = var.idp_name
+  saml_metadata_document = var.idp_metadata
 }
 
 locals {
@@ -43,23 +43,23 @@ data "aws_iam_policy_document" "okta_cross_account_role_assume_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${var.master_accounts}"]
+      identifiers = var.master_accounts
     }
   }
 }
 
 resource "aws_iam_role" "okta_cross_account_role" {
-  count              = "${var.add_cross_account_role && length(var.master_accounts) > 0 ? 1 : 0}"
+  count              = (var.add_cross_account_role && (length(var.master_accounts)) > 0 ? 1 : 0)
   // This is a pre-defined/reserved name for Okta setup
   // See: https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#B-step4
   name               = "Okta-Idp-cross-account-role"
-  assume_role_policy = "${data.aws_iam_policy_document.okta_cross_account_role_assume_policy.json}"
+  assume_role_policy = data.aws_iam_policy_document.okta_cross_account_role_assume_policy.json
 }
 
 resource "aws_iam_role_policy" "okta_cross_account_role_policy" {
-  count  = "${var.add_cross_account_role && length(var.master_accounts) > 0 ? 1 : 0}"
+  count  =  (var.add_cross_account_role && (length(var.master_accounts) > 0) ? 1 : 0)
   name   = "Okta-Idp-cross-account-role-policy"
-  role   = "${aws_iam_role.okta_cross_account_role.id}"
+  role   = aws_iam_role.okta_cross_account_role[count.index].id
   policy = <<-EOF
 {
       "Version": "2012-10-17",

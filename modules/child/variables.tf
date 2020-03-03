@@ -32,6 +32,6 @@ variable "idp_metadata" {
 
 variable "master_accounts" {
   description = "Account IDs of the master accounts (only relevant for connecting multiple accounts)"
-  type        = "list"
+  type        = list(string)
   default     = []
 }

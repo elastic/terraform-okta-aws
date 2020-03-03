@@ -16,7 +16,7 @@
 // under the License.
 
 terraform {
-  required_version = "~> 0.11.15"
+  required_version = "~> 0.12.20"
 }
 
 provider "aws" {
@@ -27,9 +27,8 @@ provider "aws" {
 module "okta_child_setup" {
   source                 = "../../modules/child"
   idp_name               = "DemoOkta2"
-  idp_metadata           = "${file(var.idp_metadata_file)}"
-  master_accounts        = ["${var.master_accounts}"]
-  add_cross_account_role = false
+  idp_metadata           = file(var.idp_metadata_file)
+  master_accounts        = var.master_accounts
 }
 
 // create a role that is assumable by Okta
@@ -47,7 +46,7 @@ JSON
 
 resource "aws_iam_role_policy" "sso_role_ec2_policy" {
   name   = "DemoOkta2EC2ReadOnlyPolicy"
-  role   = "${aws_iam_role.sso_role_ec2.name}"
+  role   = aws_iam_role.sso_role_ec2.name
   policy = <<JSON
 {
   "Version": "2012-10-17",
@@ -78,7 +77,7 @@ JSON
 }
 resource "aws_iam_role_policy" "sso_role_admin_policy" {
   name   = "DemoOkta2AdminPolicy"
-  role   = "${aws_iam_role.sso_role_admin.name}"
+  role   = aws_iam_role.sso_role_admin.name
   policy = <<JSON
 {
   "Version": "2012-10-17",
