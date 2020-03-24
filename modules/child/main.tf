@@ -30,7 +30,7 @@ locals {
   "Action": "sts:AssumeRoleWithSAML",
   "Condition": {
     "StringEquals": {
-      "SAML:aud": "https://signin.aws.amazon.com/saml"
+      "SAML:aud": "${var.sp_url}"
     }
   }
 }

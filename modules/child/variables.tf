@@ -30,6 +30,11 @@ variable "idp_metadata" {
   default     = ""
 }
 
+variable "sp_url" {
+  description = "Configured SP URL - this is usually AWS console"
+  default = "https://signin.aws.amazon.com/saml"
+}
+
 variable "master_accounts" {
   description = "Account IDs of the master accounts (only relevant for connecting multiple accounts)"
   type        = list(string)
