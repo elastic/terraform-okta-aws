@@ -49,11 +49,11 @@ module "okta_child" {
 ***Terraform 12***:
 ```hcl-terraform
 module "okta_master" {
-  source = "github.com/elastic/terraform-okta-aws.git/modules/master?ref=v1.0.0"  
+  source = "github.com/elastic/terraform-okta-aws.git/modules/master?ref=v1.1.1"  
 }
 
 module "okta_child" {
-  source = "github.com/elastic/terraform-okta-aws.git/modules/child?ref=v1.0.0"  
+  source = "github.com/elastic/terraform-okta-aws.git/modules/child?ref=v1.1.1"  
 }
 ```
 

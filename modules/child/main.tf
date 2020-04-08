@@ -29,7 +29,7 @@ locals {
   },
   "Action": "sts:AssumeRoleWithSAML",
   "Condition": {
-    "StringEquals": {
+    "StringLike": {
       "SAML:aud": "${var.sp_url}"
     }
   }
